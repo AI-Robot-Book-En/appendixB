@@ -1,18 +1,18 @@
-# 付録B アクションの実用的なプログラム例
+# Appendix B: Practical Examples of Action Programs (English Edition)
 
-## 概要
+## Overview
 
-ROS 2とPythonで作って学ぶAIロボット入門 改訂第2版（出村・萩原・升谷・タン著，講談社）付録Bのサンプルプログラムと補足情報などを掲載しています．
+This repository contains sample programs and supplementary information for Appendix B of a certain book.
 
-## ディレクトリ構成
+## Directory Structure
 
-- [airobot_action](airobot_action)： アクションの実用的なプログラム例
+- [airobot_action](airobot_action): Practical examples of action programs
 
-## サンプルプログラム一覧
+## Sample Program List
 
-- B.3 アクションサーバ [new_bringme_action_server_node.py](airobot_action/airobot_action/new_bringme_action_server_node.py)
-- B.4 アクションクライアント[test_client.py](airobot_action/airobot_action/test_client.py)
+- B.3: Action Server [new_bringme_action_server_node.py](airobot_action/airobot_action/new_bringme_action_server_node.py)
+- B.4: Action Client [test_client.py](airobot_action/airobot_action/test_client.py)
 
-## 補足情報
+## Additional Information
 
-今のところありません．
+None at the moment.
