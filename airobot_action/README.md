@@ -6,14 +6,6 @@
 - Example of an action server program that can accept cancels or new goals during goal processing.
 - Example of an action client program that can send cancels or new goals during goal processing.
 - Developed and tested on Ubuntu 22.04 with ROS Humble.
-# Practical Example Programs for Actions
-
-## Overview
-
-- Uses the common [StringCommand action type](https://github.com/AI-Robot-Book-En/chapter2/blob/main/airobot_interfaces/action/StringCommand.action) shared across this book.
-- Example of an action server program that can accept cancels or new goals during goal processing.
-- Example of an action client program that can send cancels or new goals during goal processing.
-- Developed and tested on Ubuntu 22.04 with ROS Humble.
 
 ## Installation
 
