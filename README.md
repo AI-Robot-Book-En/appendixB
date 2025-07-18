@@ -1,4 +1,4 @@
-# Appendix B: Practical Examples of Action Programs (English Edition)
+# Appendix B: Practical Examples of Action Programs
 
 ## Overview
 
