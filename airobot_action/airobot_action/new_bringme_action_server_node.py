@@ -55,7 +55,7 @@ class BringmeActionServer(Node):
 
             item = goal_handle.request.command
             if item in self.food:
-                result.answer =f'Yes, here is {item}'
+                result.answer = f'Yes, here is {item}'
             else:
                 result.answer = f'Could not find {item}'
             goal_handle.succeed()
