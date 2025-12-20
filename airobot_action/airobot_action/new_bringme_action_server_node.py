@@ -24,7 +24,7 @@ class BringmeActionServer(Node):
         self.food = ['apple', 'banana', 'candy']
 
     def handle_accepted_callback(self, goal_handle):
-        with self.goal_lock:                # Avoid double execution in this block
+        with self.goal_lock:  # Avoid double execution in this block
             if self.goal_handle is not None and self.goal_handle.is_active:
                 self.get_logger().info('Abort previous process')
                 self.goal_handle.abort()
@@ -32,7 +32,7 @@ class BringmeActionServer(Node):
         goal_handle.execute()               # Execute goal
 
     def execute_callback(self, goal_handle):
-        with self.execute_lock:            # Avoid double execution in this block
+        with self.execute_lock: # Avoid double execution in this block
             feedback = StringCommand.Feedback()
             result = StringCommand.Result()
             count = random.randint(5, 10)
