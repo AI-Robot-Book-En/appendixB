@@ -13,7 +13,7 @@ class BringmeActionServer(Node):
         super().__init__('bringme_action_server')
         self.goal_handle = None    # Variable to store the active goal info
         self.goal_lock = Lock()    # Protect access to the goal handle
-        self.execute_lock = Lock() # Ensure only one goal at atime
+        self.execute_lock = Lock() # Ensure only one goal at a time
         self._action_server = ActionServer(
             self, StringCommand, 'command', 
             execute_callback=self.execute_callback,
