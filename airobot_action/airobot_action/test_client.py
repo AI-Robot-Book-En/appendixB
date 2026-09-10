@@ -39,16 +39,18 @@ class TestClient(Node):
         self.goal_handle = goal_handle  # Update goal info
         self.get_logger().info('Goal accepted')
         self.get_result_future = goal_handle.get_result_async()
-        self.get_result_future.add_done_callback(self.get_result_callback)
+        self.get_result_future.add_done_callback(
+            lambda future: self.get_result_callback(future, goal_handle))
 
-    def get_result_callback(self, future):
+    def get_result_callback(self, future, goal_handle):
         result = future.result().result
         status = future.result().status
         if status == GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().info(f'Result: {result.answer}')
         else:
             self.get_logger().info(f'Failure status: {status}')
-        self.goal_handle = None  # Reset goal info
+        if self.goal_handle is goal_handle:
+            self.goal_handle = None  # Reset goal info
 
     def cancel(self):
         if self.goal_handle is None:
@@ -61,8 +63,7 @@ class TestClient(Node):
     def cancel_done(self, future):
         cancel_response = future.result()
         if len(cancel_response.goals_canceling) > 0:
-            self.get_logger().info('Cancel succeeded')
-            self.goal_handle = None  # Reset goal info
+            self.get_logger().info('Cancel request accepted')
         else:
             self.get_logger().info('Cancel failed')
 
