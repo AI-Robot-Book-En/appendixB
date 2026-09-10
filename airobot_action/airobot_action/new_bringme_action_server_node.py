@@ -5,15 +5,15 @@ from rclpy.node import Node
 from rclpy.action import ActionServer, CancelResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.executors import MultiThreadedExecutor
-from airobot_interfaces.action import StringCommand  # Import custom action definition
+from airobot_interfaces.action import StringCommand  # Custom action type
 
 
 class BringmeActionServer(Node):
     def __init__(self):
         super().__init__('bringme_action_server')
         self.goal_handle = None    # Variable to store the active goal info
-        self.goal_lock = Lock()    # Lock to avoid double execution
-        self.execute_lock = Lock() # Lock to avoid double execution
+        self.goal_lock = Lock()    # Protect access to the goal handle
+        self.execute_lock = Lock() # Ensure only one goal at atime
         self._action_server = ActionServer(
             self, StringCommand, 'command', 
             execute_callback=self.execute_callback,
@@ -26,7 +26,7 @@ class BringmeActionServer(Node):
     def handle_accepted_callback(self, goal_handle):
         with self.goal_lock:  # Avoid double execution in this block
             if self.goal_handle is not None and self.goal_handle.is_active:
-                self.get_logger().info('Abort previous process')
+                self.get_logger().info('Abort previous goal')
                 self.goal_handle.abort()
             self.goal_handle = goal_handle  # Update goal info
         goal_handle.execute()               # Execute goal
@@ -39,11 +39,11 @@ class BringmeActionServer(Node):
 
             while count > 0:
                 if not goal_handle.is_active:
-                    self.get_logger().info('Abort process')
+                    self.get_logger().info('Goal aborted')
                     return result
 
                 if goal_handle.is_cancel_requested:
-                    self.get_logger().info('Cancel process')
+                    self.get_logger().info('Canceling goal')
                     goal_handle.canceled()
                     return result
 
@@ -53,12 +53,17 @@ class BringmeActionServer(Node):
                 count -= 1  
                 time.sleep(1)
 
+            with self.goal_lock:
+                if not goal_handle.is_active:
+                    self.get_logger().info('Goal aborted')
+                    return result
+                goal_handle.succeed()
+
             item = goal_handle.request.command
             if item in self.food:
                 result.answer = f'Yes, here is {item}'
             else:
                 result.answer = f'Could not find {item}'
-            goal_handle.succeed()
             self.get_logger().info(f'Goal result: {result.answer}')
             return result
 
